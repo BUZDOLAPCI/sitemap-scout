@@ -1,6 +1,7 @@
 /**
  * Transport exports for sitemap-scout MCP server
+ * HTTP-only transport for Dedalus platform deployment
  */
 
-export { startStdioTransport } from "./stdio.js";
 export { startHttpTransport } from "./http.js";
+export type { HttpTransportOptions } from "./http.js";

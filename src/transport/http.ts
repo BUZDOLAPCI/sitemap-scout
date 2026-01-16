@@ -1,14 +1,13 @@
 /**
  * HTTP transport for sitemap-scout MCP server
- * Primary transport for production deployments
+ * HTTP-only transport for Dedalus platform deployment
  * Uses raw Node.js HTTP for MCP SDK compatibility
  */
 
-import { createServer, IncomingMessage, ServerResponse } from "http";
+import { createServer as createHttpServer, IncomingMessage, ServerResponse, Server as HttpServer } from "http";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { randomUUID } from "crypto";
-import { getConfig } from "../config.js";
 import { createServer as createMcpServer } from "../server.js";
 
 // Session management for HTTP transport
@@ -17,13 +16,18 @@ const sessions = new Map<
   { transport: StreamableHTTPServerTransport; server: Server }
 >();
 
+export interface HttpTransportOptions {
+  port: number;
+}
+
 /**
  * Start the server with HTTP transport
+ * Returns the HTTP server instance for testing purposes
  */
-export async function startHttpTransport(server: Server): Promise<void> {
-  const config = getConfig();
+export async function startHttpTransport(options: HttpTransportOptions): Promise<HttpServer> {
+  const { port } = options;
 
-  const httpServer = createServer();
+  const httpServer = createHttpServer();
 
   httpServer.on("request", async (req: IncomingMessage, res: ServerResponse) => {
     const url = new URL(req.url!, `http://${req.headers.host}`);
@@ -40,10 +44,13 @@ export async function startHttpTransport(server: Server): Promise<void> {
     }
   });
 
-  httpServer.listen(config.port, () => {
-    console.log(`sitemap-scout MCP server started on port ${config.port}`);
-    console.log(`Health check: http://localhost:${config.port}/health`);
-    console.log(`MCP endpoint: http://localhost:${config.port}/mcp`);
+  return new Promise((resolve) => {
+    httpServer.listen(port, () => {
+      console.log(`sitemap-scout MCP server started on port ${port}`);
+      console.log(`Health check: http://localhost:${port}/health`);
+      console.log(`MCP endpoint: http://localhost:${port}/mcp`);
+      resolve(httpServer);
+    });
   });
 }
 

@@ -7,8 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev:stdio": "tsx src/index.ts --stdio",
-    "dev:http": "tsx src/index.ts",
+    "dev": "tsx src/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
