@@ -11,7 +11,7 @@ export interface Config {
 
 // Default configuration values
 const defaults: Config = {
-  port: 8000,
+  port: 8080,
   requestTimeout: 30000,
   maxConcurrentRequests: 5,
   userAgent: "sitemap-scout/1.0 (MCP Server; +https://github.com/dedalus/sitemap-scout)",

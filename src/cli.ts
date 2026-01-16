@@ -59,11 +59,11 @@ Usage:
 
 Options:
   --stdio, -s       Use STDIO transport (for local development)
-  --port, -p PORT   HTTP server port (default: 8000)
+  --port, -p PORT   HTTP server port (default: 8080)
   --help, -h        Show this help message
 
 Environment Variables:
-  PORT                     HTTP server port (default: 8000)
+  PORT                     HTTP server port (default: 8080)
   REQUEST_TIMEOUT          Request timeout in ms (default: 30000)
   MAX_CONCURRENT_REQUESTS  Max concurrent requests (default: 5)
 
